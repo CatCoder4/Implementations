@@ -63,7 +63,7 @@ class LinkedList:
 
     def insert(self, index, value):
         if index < 0 or index > self.size:
-            raise IndexError("Insert out of bounds")
+            raise IndexError("Insert out of bounds, Size:", self.size)
         
         new_node = Node(value)
         if index == 0:
@@ -102,7 +102,6 @@ class LinkedList:
         return self.size
 
     def __iter__(self):
-        
         self._iter_node = self.head
         return self
 
@@ -140,3 +139,49 @@ class Stack:
     def __str__(self):
         return f"{self.data.__str__()}"
     
+class Queue:
+    def __init__(self):
+        self.data = LinkedList()
+    
+    def pushEnd(self, value):
+        self.data.add(value)
+    
+    def pushFirst(self, value):
+        self.data.insert(0, value)
+
+    def popEnd(self):
+        if not self.data.isEmpty():
+            self.data.delete(self.data.size-1)
+        else:
+            raise IndexError("Cannot pop an empty queue.")
+    
+    def popFirst(self):
+        if not self.data.isEmpty():
+            self.data.delete(0)
+        else:
+            raise IndexError("Cannot pop an empty queue.")
+    def __str__(self):
+        return f"{self.data.__str__()}"
+
+class PriorityQueue:
+    def __init__(self):
+        self.data = LinkedList()
+    
+    def push(self, value, priority):
+        self.data.add([value, priority])
+    
+    def pop(self):
+        if self.data.isEmpty():
+            raise IndexError("can't pop from empty queue")
+        index = 0
+        i = 0
+        maxpriority = float("-inf")
+        for value in self.data:
+            if value[1] > maxpriority:
+                maxpriority = value[1]
+                index = i
+            i += 1
+        self.data.delete(index)
+
+    def __str__(self):
+        return f"{self.data.__str__()}"
