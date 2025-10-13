@@ -163,12 +163,17 @@ class Queue:
     def __str__(self):
         return f"{self.data.__str__()}"
 
+class PriorityValue:
+    def __init__(self, value, priority):
+        self.value = value
+        self.priority = priority
+
 class PriorityQueue:
     def __init__(self):
         self.data = LinkedList()
     
     def push(self, value, priority):
-        self.data.add([value, priority])
+        self.data.add(PriorityValue(value, priority))
     
     def pop(self):
         if self.data.isEmpty():
@@ -177,11 +182,14 @@ class PriorityQueue:
         i = 0
         maxpriority = float("-inf")
         for value in self.data:
-            if value[1] > maxpriority:
-                maxpriority = value[1]
+            if value.priority > maxpriority:
+                maxpriority = value.priority
                 index = i
             i += 1
         self.data.delete(index)
 
     def __str__(self):
-        return f"{self.data.__str__()}"
+        Printables = []
+        for PriorityValue in self.data:
+            Printables.append(PriorityValue.value)
+        return f'{Printables}'
